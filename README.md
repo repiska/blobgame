@@ -15,7 +15,7 @@ Watch these community-created videos to see blobl.io in action:
 
 ## Overview
 
-**blobl.io** is an open-source multiplayer IO game inspired by the original **bloble.io**. It is a real-time strategy game where players compete to capture bases, build and destroy structures, command units. The game features a distributed architecture designed for scalability and performance.
+**blobl.io** is an open-source multiplayer IO game inspired by the original **bloble.io**. It is a real-time strategy game where players compete to capture bases, build and destroy structures, command units. The game features a distributed architecture designed for scalability.
 
 ### Key Features:
 - **Base Capturing**: Strategize and capture enemy bases to expand your territory.

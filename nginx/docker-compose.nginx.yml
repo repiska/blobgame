@@ -1,11 +1,8 @@
 services:
   nginx:
     image: nginx:1.27-alpine
-    depends_on:
-      - client
-      - game-server
-      # Uncomment if Xray container name is known:
-      # - remnanode
+    # Note: depends_on removed - nginx will proxy to services when they're available
+    # Make sure to start main services first: docker compose -f docker-compose.yml up -d
     ports:
       - "80:80"
       - "443:443"
@@ -16,5 +13,16 @@ services:
       # For Let's Encrypt: /etc/letsencrypt:/etc/nginx/ssl:ro
       # For custom certificates: ./ssl:/etc/nginx/ssl:ro
       - ./ssl:/etc/nginx/ssl:ro
+    networks:
+      - internal
+      - remnanode
     restart: unless-stopped
+
+networks:
+  internal:
+    external: true
+    name: blob_internal
+  remnanode:
+    external: true
+    name: remnanode
 

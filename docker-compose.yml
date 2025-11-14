@@ -5,8 +5,8 @@ services:
       dockerfile: server/Dockerfile
     environment:
       - PORT=8080
-    ports:
-      - "8080:8080"
+    networks:
+      - internal
     restart: unless-stopped
 
   client:
@@ -15,15 +15,20 @@ services:
       dockerfile: client/Dockerfile
     depends_on:
       - game-server
-    ports:
-      - "8088:80"
+    networks:
+      - internal
     restart: unless-stopped
 
   loadbalancer:
     build:
       context: .
       dockerfile: loadbalancer/Dockerfile
-    ports:
-      - "3002:3002"
+    networks:
+      - internal
     restart: unless-stopped
+
+networks:
+  internal:
+    name: blob_internal
+    driver: bridge
 

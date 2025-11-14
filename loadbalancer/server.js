@@ -31,7 +31,9 @@ function portToPathSegment(port) {
 // Function to fetch player count from the game server
 const getPlayerCount = async (port) => {
     try {
-        const response = await axios.get(`http://127.0.0.1:${port}/playercount`);
+        // Use game-server service name in docker network
+        const serverHost = port === 8080 ? 'game-server' : `game-server-${port}`;
+        const response = await axios.get(`http://${serverHost}:${port}/playercount`);
         if (response.status === 200) {
             return response.data.player_count; 
         }
@@ -112,17 +114,11 @@ app.get('/get-server', async (req, res) => {
 app.listen(config.defaultPort, async () => {
     console.log(`Directory server listening on port ${config.defaultPort}`);
 
-    // Start two game servers initially
-    try {
-        await Promise.all([
-            startServer(config.serverPortStart),
-            startServer(config.serverPortStart + 1),
-        ]);
-        console.log(`Started two game servers on ports ${config.serverPortStart} and ${config.serverPortStart + 1}`);
-    } catch (error) {
-        console.error('Error starting the servers:', error);
-        process.exit(1);
-    }
+    // Register existing game servers (already running via docker-compose)
+    // Don't try to spawn them - they're managed by docker-compose
+    servers.push({ port: config.serverPortStart, playerCount: 0 });
+    servers.push({ port: config.serverPortStart + 1, playerCount: 0 });
+    console.log(`Registered game servers on ports ${config.serverPortStart} and ${config.serverPortStart + 1}`);
 });
 
 // Clean up server processes on exit

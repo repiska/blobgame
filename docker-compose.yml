@@ -19,3 +19,11 @@ services:
       - "8088:80"
     restart: unless-stopped
 
+  loadbalancer:
+    build:
+      context: .
+      dockerfile: loadbalancer/Dockerfile
+    ports:
+      - "3002:3002"
+    restart: unless-stopped
+

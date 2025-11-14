@@ -14,6 +14,7 @@ FROM gcr.io/distroless/base-debian12
 WORKDIR /srv
 
 COPY --from=builder /tmp/server /srv/server
+COPY --from=builder /app/main/data /srv/data
 
 ENV PORT=8080
 EXPOSE 8080

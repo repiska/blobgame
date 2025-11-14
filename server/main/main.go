@@ -178,11 +178,11 @@ func main() {
 	http.HandleFunc("/reboot", serverRebootHandler)
 
 	// Log server start
-	address := fmt.Sprintf("localhost:%s", PORT)
+	address := fmt.Sprintf(":%s", PORT)
 	log.Printf("Blobl.io Server starting on %s\n", address)
 
 	// Start the server
-	if err := http.ListenAndServe("localhost:"+PORT, nil); err != nil {
+	if err := http.ListenAndServe(address, nil); err != nil {
 		log.Fatal(err)
 	}
 }

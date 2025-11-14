@@ -1,0 +1,13 @@
+node_modules
+*/node_modules
+client/dist
+client/blobfuscator/dist
+client/blobfuscator/node_modules
+auth-server/firebaseServiceAccountKey.json
+.git
+.gitignore
+*.env
+dist
+npm-debug.log
+yarn.lock
+

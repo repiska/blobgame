@@ -57,6 +57,35 @@ blobl.io/
 
 ## Installation & Setup
 
+### Run with Docker
+
+You can spin up the core game server and the static client with Docker (no host dependencies besides Docker/Compose):
+
+```bash
+# From the repo root
+docker compose up --build
+```
+
+- `game-server` exposes the WebSocket server on `localhost:8080`.
+- `client` serves the bundled UI on `http://localhost:8088`. Because it runs on `localhost`, the client automatically connects to `ws://localhost:8080`, so no additional configuration is required for casual testing.
+
+> **Note:** The optional authentication and load balancer Node.js services are not part of the default Compose stack. They require additional infrastructure (Discord/Firebase secrets, SSL termination, multi-server routing). Containerization steps for those services follow the same pattern: add a `Dockerfile`, mount the required secrets, and extend `docker-compose.yml` if you need them locally.
+
+### Nginx reverse proxy (optional)
+
+If you prefer to front the containers with Nginx (terminating HTTP and proxying `/ffa*` WebSocket traffic), use the provided configuration:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.nginx.yml up --build
+```
+
+This spins up an `nginx` service that consumes `nginx_default` and routes:
+
+- `/` → client container
+- `/ffa`, `/ffa1`, ... → game server WebSocket endpoint
+- `/get-server` → optional load balancer (if you add that container later)
+- `/auth/*` → optional auth service (if present)
+
 ### Game Server
 
 ```bash

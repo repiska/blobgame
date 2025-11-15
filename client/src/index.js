@@ -1,4 +1,6 @@
 import Core from "./components/Core.js";
 
 // Create the Core instance
-new Core("https://fra1.blobl.io", 6);
+// Используем текущий домен для loadbalancer
+const loadBalancerAddress = window.location.origin;
+new Core(loadBalancerAddress, 6);
